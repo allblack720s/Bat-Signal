@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# IN PROGRESS!
+
+# IP Sweeper and Nmap Runner 
+# Input is first three quartets of subnet address. Ex command: ./ipsweep_and_nmap.sh 192.168.57 &
+
+for ip in $(seq 1 254); do
+
+ping -c 1 $1.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":"; done > iplist.txt
+
+#for ip2 in $(cat iplist.txt): do
+
+#nmap -T4 -sS -A -p- $ip2; done >  nmaps.txt
