@@ -1,14 +1,16 @@
 #!/bin/bash
 
-# IN PROGRESS!
+# IP Sweeper and Nmap Runner. 
+# Input is first three quartets of subnet address. Ex command: ./Bat-Signal.sh 192.168.57 &
 
-# IP Sweeper and Nmap Runner 
-# Input is first three quartets of subnet address. Ex command: ./ipsweep_and_nmap.sh 192.168.57 &
+# 1. Run the command in the background (using &).
+# 2. Cat ip-list.txt to see all IP addresses on the network that have responded to our ping scans.
+# 3. Cat nmaps.txt to see the nmap reports for the IP addresses that have been found.
+# 4. Customize nmap scans as needed (-A, -Sv, -p-, etc)
 
 for ip in $(seq 1 254); do
 
-ping -c 1 $1.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":"; done > iplist.txt
+(ping -c 1 $1.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" &); done > ip-list.txt
 
-#for ip2 in $(cat iplist.txt): do
+nmap -sV --top-ports 2000 -iL ip-list.txt > nmaps.txt
 
-#nmap -T4 -sS -A -p- $ip2; done >  nmaps.txt
